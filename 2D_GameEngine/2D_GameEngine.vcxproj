@@ -124,11 +124,13 @@
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="TextureManager.cpp" />
+    <ClCompile Include="TileMap.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="TextureManager.h" />
+    <ClInclude Include="TileMap.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\..\..\..\Pictures\2D_GameEngine\enemy1.png" />

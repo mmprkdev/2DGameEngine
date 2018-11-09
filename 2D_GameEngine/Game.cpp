@@ -1,9 +1,13 @@
 #include "Game.h"
 #include "TextureManager.h"
 #include "GameObject.h"
+#include "TileMap.h"
 
 GameObject* player;
 GameObject* enemy;
+TileMap* tileMap;
+
+SDL_Renderer* Game::Renderer = nullptr;
 
 // Constructor
 Game::Game()
@@ -28,18 +32,19 @@ void Game::Init(const char* title, int xpos, int ypos, int width, int height, bo
 		_window = SDL_CreateWindow(title, xpos, ypos, width, height, flags);
 		if (_window) std::cout << "Window created" << std::endl;
 
-		_renderer = SDL_CreateRenderer(_window, -1, 0);
-		if (_renderer) 
+		Renderer = SDL_CreateRenderer(_window, -1, 0);
+		if (Renderer) 
 		{
-			SDL_SetRenderDrawColor(_renderer, 255, 255, 255, 255);
+			SDL_SetRenderDrawColor(Renderer, 255, 255, 255, 255);
 			std::cout << "Renderer created" << std::endl; 
 		}
 
 		_isRunning = true;
 	}
 	
-	player = new GameObject("assets\\player1.png", _renderer, 0, 0);
-	enemy = new GameObject("assets\\enemy1.png", _renderer, 100, 100);
+	player = new GameObject("assets\\player1.png", 0, 0);
+	enemy = new GameObject("assets\\enemy1.png", 100, 100);
+	tileMap = new TileMap();
 }
 
 void Game::HandleEvents()
@@ -57,6 +62,7 @@ void Game::HandleEvents()
 	}
 }
 
+// This is just handling movement of game objects for now
 void Game::Update()
 {
 	player->Update();
@@ -66,18 +72,20 @@ void Game::Update()
 	std::cout << _count << std::endl;
 }
 
+// This is handling the drawing of game objects and the background
 void Game::Render()
 {
-	SDL_RenderClear(_renderer);
+	SDL_RenderClear(Renderer);
+	tileMap->DrawMap();
 	player->Render();
 	enemy->Render();
-	SDL_RenderPresent(_renderer);
+	SDL_RenderPresent(Renderer);
 }
 
 void Game::Clean()
 {
 	SDL_DestroyWindow(_window);
-	SDL_DestroyRenderer(_renderer);
+	SDL_DestroyRenderer(Renderer);
 	SDL_Quit();
 	std::cout << "Game cleaned" << std::endl;
 }

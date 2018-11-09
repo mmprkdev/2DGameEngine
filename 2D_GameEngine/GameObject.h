@@ -5,7 +5,7 @@
 class GameObject
 {
 public:
-	GameObject(const char* textureSheet, SDL_Renderer* ren, int xpos, int ypos);
+	GameObject(const char* textureSheet, int xpos, int ypos);
 	~GameObject();
 
 	void Update();
@@ -20,5 +20,4 @@ private:
 	// and the destination rectangle is the size and pos to be displayed on
 	// the window.
 	SDL_Rect _sourceRect, _destRect;
-	SDL_Renderer* _renderer;
 };
