@@ -2,12 +2,17 @@
 #include "TextureManager.h"
 #include "GameObject.h"
 #include "TileMap.h"
+#include "ECS.h"
+#include "Components.h"
 
-GameObject* player;
-GameObject* enemy;
-TileMap* tileMap;
+GameObject *player;
+GameObject *enemy;
+TileMap *tileMap;
 
-SDL_Renderer* Game::Renderer = nullptr;
+SDL_Renderer *Game::Renderer = nullptr;
+
+Manager manager;
+auto& newPlayer(manager.AddEntity());
 
 // Constructor
 Game::Game()
@@ -19,7 +24,7 @@ Game::~Game()
 {
 }
 
-void Game::Init(const char* title, int xpos, int ypos, int width, int height, bool fullscreen)
+void Game::Init(const char *title, int xpos, int ypos, int width, int height, bool fullscreen)
 {
 	int flags = 0;
 	if (fullscreen) flags = SDL_WINDOW_FULLSCREEN;
@@ -45,6 +50,8 @@ void Game::Init(const char* title, int xpos, int ypos, int width, int height, bo
 	player = new GameObject("assets\\player1.png", 0, 0);
 	enemy = new GameObject("assets\\enemy1.png", 100, 100);
 	tileMap = new TileMap();
+
+	newPlayer.AddComponent<PositionComponent>();
 }
 
 void Game::HandleEvents()
@@ -67,6 +74,11 @@ void Game::Update()
 {
 	player->Update();
 	enemy->Update();
+	manager.Update();
+
+	// TODO:
+	// Figure out why x and y are not incrementing...
+	std::cout << newPlayer.GetComponent<PositionComponent>().X() << "," << newPlayer.GetComponent<PositionComponent>().Y() << std::endl;
 
 	_count++;
 	std::cout << _count << std::endl;

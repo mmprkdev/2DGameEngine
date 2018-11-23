@@ -65,8 +65,8 @@ void TileMap::DrawMap()
 		{
 			type = _map[row][column];
 
-			_dest.x = column * 32;
-			_dest.y = row * 32;
+			_dest.x = column  *32;
+			_dest.y = row  *32;
 
 			switch (type)
 			{
